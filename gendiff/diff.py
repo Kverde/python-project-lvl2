@@ -1,9 +1,4 @@
-import json
-
-
-def read_file(filename):
-    with open(filename) as f:
-        return f.read()
+from gendiff.parser import parse_file
 
 
 def compare_dict_value(d1, d2, key):
@@ -37,13 +32,13 @@ def prepare_value(value):
 
 
 def generate_diff(file1_path, file2_path):
-    json1 = json.loads(read_file(file1_path))
-    json2 = json.loads(read_file(file2_path))
+    d1 = parse_file(file1_path)
+    d2 = parse_file(file2_path)
 
-    json1_keys = set(json1)
-    json2_keys = set(json2)
-    keys = sorted(json1_keys | json2_keys)
-    difference = compare_dict(json1, json2)
+    d1_keys = set(d1)
+    d22_keys = set(d2)
+    keys = sorted(d1_keys | d22_keys)
+    difference = compare_dict(d1, d2)
 
     lines = []
     lines.append('{')
@@ -52,19 +47,19 @@ def generate_diff(file1_path, file2_path):
         rel = difference[key]
 
         if rel == 'same':
-            lines.append(f'    {key}: {prepare_value(json1[key])}')
+            lines.append(f'    {key}: {prepare_value(d1[key])}')
             continue
 
         if rel == 'removed':
-            lines.append(f'  - {key}: {prepare_value(json1[key])}')
+            lines.append(f'  - {key}: {prepare_value(d1[key])}')
             continue
 
         if rel == 'added':
-            lines.append(f'  + {key}: {prepare_value(json2[key])}')
+            lines.append(f'  + {key}: {prepare_value(d2[key])}')
             continue
 
-        lines.append(f'  - {key}: {prepare_value(json1[key])}')
-        lines.append(f'  + {key}: {prepare_value(json2[key])}')
+        lines.append(f'  - {key}: {prepare_value(d1[key])}')
+        lines.append(f'  + {key}: {prepare_value(d2[key])}')
 
     lines.append('}')
     return '\n'.join(lines)
