@@ -1,6 +1,7 @@
 import pytest
 
-from gendiff.diff import generate_diff
+from gendiff.diff_generator import generate_diff
+from gendiff.formatter import format
 
 
 FILE1_JSON_PLAIN_PATH = './tests/fixtures/plain/file1.json'
@@ -28,13 +29,15 @@ def correct_pain_result():
 
 
 def test_generate_diff_plain_json(correct_pain_result):
-    actual_result = generate_diff(FILE1_JSON_PLAIN_PATH, FILE2_JSON_PLAIN_PATH)
+    diff = generate_diff(FILE1_JSON_PLAIN_PATH, FILE2_JSON_PLAIN_PATH)
+    actual_result = format(diff)
 
     assert actual_result == correct_pain_result
 
 
 def test_generate_diff_plain_yaml(correct_pain_result):
-    actual_result = generate_diff(FILE1_YAML_PLAIN_PATH, FILE2_YAML_PLAIN_PATH)
+    diff = generate_diff(FILE1_YAML_PLAIN_PATH, FILE2_YAML_PLAIN_PATH)
+    actual_result = format(diff)
 
     assert actual_result == correct_pain_result
 
@@ -46,12 +49,14 @@ def correct_tree_result():
 
 
 def test_generate_diff_tree_json(correct_tree_result):
-    actual_result = generate_diff(FILE1_JSON_TREE_PATH, FILE2_JSON_TREE_PATH)
+    diff = generate_diff(FILE1_JSON_TREE_PATH, FILE2_JSON_TREE_PATH)
+    actual_result = format(diff)
 
     assert actual_result == correct_tree_result
 
 
 def test_generate_diff_tree_yaml(correct_tree_result):
-    actual_result = generate_diff(FILE1_YAML_TREE_PATH, FILE2_YAML_TREE_PATH)
+    diff = generate_diff(FILE1_YAML_TREE_PATH, FILE2_YAML_TREE_PATH)
+    actual_result = format(diff)
 
     assert actual_result == correct_tree_result

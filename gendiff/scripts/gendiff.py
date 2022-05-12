@@ -2,7 +2,8 @@
 
 """Gendiff script."""
 
-from gendiff.diff import generate_diff
+from gendiff.diff_generator import generate_diff
+from gendiff.formatter import format
 import argparse
 
 
@@ -16,7 +17,8 @@ def main():
     parser.add_argument('second_file')
     parser.add_argument('-f', '--format', help='set format of output')
     args = parser.parse_args()
-    res = generate_diff(args.first_file, args.second_file)
+    diff = generate_diff(args.first_file, args.second_file)
+    res = format(diff)
     print(res)
 
 
