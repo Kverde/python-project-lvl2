@@ -8,7 +8,10 @@ def format_obj(obj):
     if obj == None:
         return 'null'
 
-    return f"'{str(obj)}'"
+    if isinstance(obj, str):
+        return f"'{str(obj)}'"
+
+    return str(obj)
 
 
 def format_plain(diff):
