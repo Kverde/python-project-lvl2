@@ -1,4 +1,5 @@
 from gendiff.parser import parse_file
+from gendiff.formatter import format_diff
 
 
 def compare(value1, value2):
@@ -30,12 +31,10 @@ def compare_dict(d1, d2):
     return res
 
 
-def generate_diff(file1_path, file2_path):
+def generate_diff(file1_path, file2_path, format='stylish'):
     d1 = parse_file(file1_path)
     d2 = parse_file(file2_path)
 
-    d1_keys = set(d1)
-    d22_keys = set(d2)
-    keys = sorted(d1_keys | d22_keys)
     diff = compare_dict(d1, d2)
-    return diff
+    res = format_diff(diff, format)
+    return res
