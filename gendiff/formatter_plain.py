@@ -1,6 +1,3 @@
-from pyparsing import line
-
-
 def format_obj(obj):
     if isinstance(obj, bool):
         return str(obj).lower()

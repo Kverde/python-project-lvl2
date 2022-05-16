@@ -20,6 +20,7 @@ FILE2_YAML_TREE_PATH = './tests/fixtures/tree/file2.yml'
 
 RESULT_TREE_STYLISH_PATH = './tests/fixtures/tree/result_stylish.txt'
 RESULT_TREE_PLAIN_PATH = './tests/fixtures/tree/result_plain.txt'
+RESULT_TREE_JSON_PATH = './tests/fixtures/tree/result_json.txt'
 
 
 @pytest.fixture
@@ -52,7 +53,13 @@ def correct_tree_plain():
         return f.read()
 
 
-def test_generate_diff_tree_json(correct_tree_stylish, correct_tree_plain):
+@pytest.fixture
+def correct_tree_json():
+    with open(RESULT_TREE_JSON_PATH) as f:
+        return f.read()
+
+
+def test_generate_diff_tree_json(correct_tree_stylish, correct_tree_plain, correct_tree_json):
     actual_result_stylish = generate_diff(
         FILE1_JSON_TREE_PATH, FILE2_JSON_TREE_PATH, 'stylish')
     assert actual_result_stylish == correct_tree_stylish
@@ -61,8 +68,12 @@ def test_generate_diff_tree_json(correct_tree_stylish, correct_tree_plain):
         FILE1_JSON_TREE_PATH, FILE2_JSON_TREE_PATH, 'plain')
     assert actual_result_plain == correct_tree_plain
 
+    actual_result_json = generate_diff(
+        FILE1_JSON_TREE_PATH, FILE2_JSON_TREE_PATH, 'json')
+    assert actual_result_json == correct_tree_json
 
-def test_generate_diff_tree_yaml(correct_tree_stylish, correct_tree_plain):
+
+def test_generate_diff_tree_yaml(correct_tree_stylish, correct_tree_plain, correct_tree_json):
     actual_result_stylish = generate_diff(
         FILE1_YAML_TREE_PATH, FILE2_YAML_TREE_PATH, 'stylish')
     assert actual_result_stylish == correct_tree_stylish
@@ -70,3 +81,7 @@ def test_generate_diff_tree_yaml(correct_tree_stylish, correct_tree_plain):
     actual_result_plain = generate_diff(
         FILE1_YAML_TREE_PATH, FILE2_YAML_TREE_PATH, 'plain')
     assert actual_result_plain == correct_tree_plain
+
+    actual_result_json = generate_diff(
+        FILE1_YAML_TREE_PATH, FILE2_YAML_TREE_PATH, 'json')
+    assert actual_result_json == correct_tree_json
