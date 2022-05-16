@@ -2,7 +2,7 @@
 
 """Gendiff script."""
 
-from gendiff.diff_generator import generate_diff
+from gendiff.gendiff import generate_diff
 import argparse
 
 

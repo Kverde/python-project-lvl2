@@ -1,6 +1,6 @@
 import pytest
 
-from gendiff.diff_generator import generate_diff
+from gendiff.gendiff import generate_diff
 
 
 FILE1_JSON_PLAIN_PATH = './tests/fixtures/plain/file1.json'
