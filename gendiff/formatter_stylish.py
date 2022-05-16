@@ -12,7 +12,7 @@ def prepare_value(obj, deep=0):
     if isinstance(obj, bool):
         return str(obj).lower()
 
-    if obj == None:
+    if obj is None:
         return 'null'
 
     return str(obj)
@@ -28,8 +28,8 @@ def format_stylish(diff, deep=0):
         (rel, value1, value2) = diff[key]
 
         if rel == 'children':
-            lines.append(f'{offset}    {key}: ' +
-                         format_stylish(value1, deep + 1))
+            line = f'{offset}    {key}: {format_stylish(value1, deep + 1)}'
+            lines.append(line)
             continue
 
         if rel == 'same':

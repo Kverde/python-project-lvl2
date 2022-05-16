@@ -5,13 +5,18 @@ def format_obj(obj):
     if isinstance(obj, dict):
         return '[complex value]'
 
-    if obj == None:
+    if obj is None:
         return 'null'
 
     if isinstance(obj, str):
         return f"'{str(obj)}'"
 
     return str(obj)
+
+
+MSG_REMOVE = "Property '{prop_name}' was removed"
+MSG_ADDED = "Property '{prop_name}' was added with value: {added_value}"
+MSG_UPDATE = "Property '{prop_name}' was updated. From {value1} to {value2}"
 
 
 def format_plain(diff):
@@ -32,16 +37,21 @@ def format_plain(diff):
                 continue
 
             if rel == 'removed':
-                lines.append(f"Property '{current_path_str}' was removed")
+                lines.append(MSG_REMOVE.format(prop_name=current_path_str))
                 continue
 
             if rel == 'added':
-                lines.append(
-                    f"Property '{current_path_str}' was added with value: {format_obj(value2)}")
+                lines.append(MSG_ADDED.format(
+                    prop_name=current_path_str,
+                    added_value=format_obj(value2)
+                ))
                 continue
 
-            lines.append(
-                f"Property '{current_path_str}' was updated. From {format_obj(value1)} to {format_obj(value2)}")
+            lines.append(MSG_UPDATE.format(
+                prop_name=current_path_str,
+                value1=format_obj(value1),
+                value2=format_obj(value2)
+            ))
 
     inner(diff, [])
     return '\n'.join(lines)
